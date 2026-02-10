@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Geovana | Arquitetura</title>
+</head>
+<body>
+
+  <section class="hero">
+    <div class="hero-content">
+      <img id="Geovana" src="Geovana.jpeg" alt="Geovana">
+      <h2 class="hero-title"> Geovana Soares </h2>
+      <h3 class="hero-text">
+       Arquiteta e Urbanista
+      </h3>
+      <a href="#" class="hero-button" onclick="abrirProjetos(event)">Ver projetos</a>
+    </div>
+
+    <footer class="footer-simples">
+        <p>&copy; 2026 Todos os direitos reservados.</p>
+        <p>Desenvolvido por <a href="https://github.com/KauaRios" target="_blank" class="link-creditos">Kauã</a></p>
+    </footer>
+  </section>
+
+  <div id="Aba-projetos">
+    <button class="btn-fechar-modal" onclick="fecharProjetos()">✕</button>
+    
+    <div class="modal-header">
+        <div class="modal-menu">
+            <button onclick="carregarCategoria('projetos3d')">Projetos 3D</button>
+            <button onclick="carregarCategoria('executivos')">Executivos</button>
+            <button onclick="carregarCategoria('planilha')">Planilha Orçamentária</button>
+        </div>
+        <h4 id="titulo-categoria">Selecione uma Categoria</h4>
+    </div>
+
+    <div class="slider-container">
+        <div class="slider-wrapper" id="slider">
+            </div>
+        <button class="nav-btn prev" onclick="mudarSlide(-1)">❮</button>
+        <button class="nav-btn next" onclick="mudarSlide(1)">❯</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
