@@ -1,53 +1,46 @@
-// 1. Variáveis Globais
 let dadosProjetos = {}; 
 let currentSlide = 0;
 
-// Mapeamento das suas pastas reais (conforme image_95c3e5.png)
 const caminhosDasPastas = {
     "projetos3d": "imagesP3D/",
     "executivos": "imagesPEXE/",
     "planilha": "imagesPlanilhas/"
 };
 
-// 2. Carregar o JSON assim que o site inicia
+// 1. Carregar JSON
 fetch('imagens.json')
     .then(res => res.json())
     .then(data => {
         dadosProjetos = data;
-        console.log("JSON carregado com sucesso!");
+        console.log("JSON Carregado");
     })
-    .catch(err => console.error("Erro: O arquivo imagens.json não foi encontrado!", err));
+    .catch(err => console.error("Erro ao carregar JSON:", err));
 
-// 3. Função para abrir a aba (Gatilho único)
+// 2. Abrir Modal
 function abrirProjetos(e) {
     if(e) e.preventDefault();
-    
     const aba = document.getElementById('Aba-projetos');
-    
-    // Mostra o elemento no DOM
-    aba.style.display = 'block';
-    
-    // Inicia a animação e carrega as fotos
+    aba.style.display = 'flex';
     setTimeout(() => {
         aba.classList.add('active');
-        carregarCategoria('projetos3d'); // Começa pela 3D
+        carregarCategoria('projetos3d');
     }, 10);
 }
 
-// 4. Função para carregar as imagens no slider
+// 3. Carregar Imagens
 function carregarCategoria(cat) {
     const slider = document.getElementById("slider");
     const titulo = document.getElementById("titulo-categoria");
     
     slider.innerHTML = ""; 
     currentSlide = 0;
-    slider.style.transform = `translateX(0%)`;
     titulo.innerText = cat.toUpperCase();
 
     if (dadosProjetos[cat]) {
-        dadosProjetos[cat].forEach(nome => {
+        dadosProjetos[cat].forEach((nome, index) => {
             const slideItem = document.createElement("div");
             slideItem.classList.add("slide-item");
+            if(index === 0) slideItem.classList.add("active-slide");
             
             const img = document.createElement("img");
             img.src = caminhosDasPastas[cat] + nome;
@@ -59,27 +52,32 @@ function carregarCategoria(cat) {
     }
 }
 
-// 5. Controles do Slider
+// 4. Mudar Slide (Fade)
 function mudarSlide(direcao) {
     const slides = document.querySelectorAll('.slide-item');
-    if (slides.length === 0) return;
+    if (slides.length <= 1) return;
 
-    currentSlide += direcao;
-    if (currentSlide >= slides.length) currentSlide = 0;
-    if (currentSlide < 0) currentSlide = slides.length - 1;
-
-    document.getElementById('slider').style.transform = `translateX(${currentSlide * -100}%)`;
+    slides[currentSlide].classList.remove('active-slide');
+    currentSlide = (currentSlide + direcao + slides.length) % slides.length;
+    slides[currentSlide].classList.add('active-slide');
 }
 
-// 6. Função para fechar
+// 5. Fechar
 function fecharProjetos() {
     const aba = document.getElementById('Aba-projetos');
     aba.classList.remove('active');
-    setTimeout(() => { 
-        aba.style.display = 'none'; 
-    }, 400);
+    setTimeout(() => { aba.style.display = 'none'; }, 500);
 }
 
-
-
-//images de fundo em carrosel
+// 6. Zoom
+document.getElementById('slider').addEventListener('click', function(e) {
+    if (e.target.tagName === 'IMG') {
+        const fullScreenDiv = document.createElement('div');
+        fullScreenDiv.classList.add('img-fullscreen');
+        const fullImg = document.createElement('img');
+        fullImg.src = e.target.src;
+        fullScreenDiv.appendChild(fullImg);
+        document.body.appendChild(fullScreenDiv);
+        fullScreenDiv.onclick = () => fullScreenDiv.remove();
+    }
+});
