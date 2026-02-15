@@ -21,18 +21,18 @@ def gerar_json_categorizado():
             # Lista apenas os arquivos com as extensões permitidas
             arquivos = [f for f in os.listdir(pasta) if f.lower().endswith(extensoes)]
             dados_finais[chave] = arquivos
-            print(f"✅ Pasta '{pasta}': {len(arquivos)} arquivos encontrados.")
+            print(f" Pasta '{pasta}': {len(arquivos)} arquivos encontrados.")
         else:
             dados_finais[chave] = []
-            print(f"⚠️ Aviso: A pasta '{pasta}' não foi encontrada na raiz.")
+            print(f" Aviso: A pasta '{pasta}' não foi encontrada na raiz.")
 
     # Salva o resultado no imagens.json
     try:
         with open('imagens.json', 'w', encoding='utf-8') as f:
             json.dump(dados_finais, f, indent=4, ensure_ascii=False)
-        print("\n🚀 Sucesso! O arquivo 'imagens.json' foi atualizado com as 3 categorias.")
+        print("\n Sucesso! O arquivo 'imagens.json' foi atualizado com as 3 categorias.")
     except Exception as e:
-        print(f"\n❌ Erro ao salvar o arquivo: {e}")
+        print(f"\n Erro ao salvar o arquivo: {e}")
 
 if __name__ == "__main__":
     gerar_json_categorizado()
